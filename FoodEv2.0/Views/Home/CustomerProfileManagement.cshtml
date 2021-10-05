@@ -1,0 +1,228 @@
+﻿@model RegisterViewModel
+
+@{
+     var search = ViewData["SearchResult"] as RegisterViewModel;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Restaurantly Bootstrap Template - Index</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <!-- Favicons -->
+    <link href="~/Content/img/favicon.png" rel="icon">
+    <link href="~/Content/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Content/vendor/animate.css/animate.min.css" rel="stylesheet" />
+    <link href="~/Content/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Content/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Content/css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+    <main id="main">
+
+        <!-- ======= Top Bar Section ======= -->
+
+        <section class="breadcrumbs">
+            <div class="container">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Update Customer Account information</h2>
+                    <ol>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======= End Top Bar Section ======= -->
+        <!-- ======= Customer Profile Management Section ======= -->
+
+        <section id="book-a-table" class="book-a-table">
+            <div class="container" data-aos="fade-up">
+
+                @if (ViewData["SearchResult"] == null)
+                {
+                    <form method="post" action="SearchCustomerProfile" role="form" class="formstyle" data-aos="fade-up" data-aos-delay="100" style="margin-bottom: 20px">
+                        <div class="col-lg-4 col-md-6 form-group input-group">
+                            <input type="text" name="username" id="searchname" class="form-control textstyler" placeholder="Search User" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                            <div class="input-group-append">
+                                <button type="submit" class="btnstyler">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                    <form method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+                        <div class="col-lg-4 col-md-6 form-group">
+                            <input asp-for="Username" class="form-control" id="name" placeholder="Username" data-rule="minlen:4" data-msg="Please enter at least 4 chars" readonly>
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="text" class="form-control" name="FirstName" id="firstname" placeholder="First Name" data-rule="minlen:2" data-msg="Please enter at least 2 chars">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="text" class="form-control" name="LastName" id="lastname" placeholder="Last Name" data-rule="minlen:2" data-msg="Please enter at least 2 chars">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="text" class="form-control" name="ContactNo" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                            <span asp-validation-for="ContactNo" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="email" class="form-control" name="EmailAddress" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
+                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="text" name="DOB" class="form-control" id="date" placeholder="Date of Birth" onfocus="(this.type='date')" required>
+                            <span asp-validation-for="DOB" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="password" name="Password" class="form-control" id="password" placeholder="Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="password" name="ConfirmPassword" class="form-control" id="conpassword" placeholder="Confirm Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <select name="AuthLevel" id="authlevel" style="background-color: #0c0b09;border-color:#625b4b;color:white" required>
+                                <option value="2">2: Customer</option>
+                                <option value="1">1: Admin</option>
+                            </select>
+                        </div>
+                        <div id="StatMsg" style="color:#ff0033"></div>
+                        <div class="text-center">
+                            <button type="submit" id="confirmedit">Edit Account</button>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <form method="post" action="SearchCustomerProfile" role="form" class="formstyle" data-aos="fade-up" data-aos-delay="100" style="margin-bottom: 20px">
+                        <div class="col-lg-4 col-md-6 form-group input-group">
+                            <input type="text" name="username" id="searchname" class="form-control textstyler" placeholder="Search User" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                            <div class="input-group-append">
+                                <button type="submit" class="btnstyler">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                    <form method="post" role="form" action="CustomerProfileManagement" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+                        <div class="col-lg-4 col-md-6 form-group">
+                            <input asp-for="Username" class="form-control" id="name" placeholder="Username" data-rule="minlen:4" data-msg="Please enter at least 4 chars" value="@search.Username" readonly>
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="text" class="form-control" name="FirstName" id="firstname" placeholder="First Name" data-rule="minlen:2" data-msg="Please enter at least 2 chars" value="@search.FirstName">
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="text" class="form-control" name="LastName" id="lastname" placeholder="Last Name" data-rule="minlen:2" data-msg="Please enter at least 2 chars" value="@search.LastName">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="text" class="form-control" name="ContactNo" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars" value="@search.ContactNo">
+                            <span asp-validation-for="ContactNo" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="email" class="form-control" name="EmailAddress" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" value="@search.EmailAddress">
+                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="text" name="DOB" class="form-control" id="date" placeholder="Date of Birth" onfocus="(this.type='date')" value="@search.DOB.ToString("d")" max="@DateTime.Now" required>
+                            <span asp-validation-for="DOB" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="password" name="Password" class="form-control" id="password" placeholder="Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars" value="@search.Password">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group mt-3">
+                            <input type="password" name="ConfirmPassword" class="form-control" id="conpassword" placeholder="Confirm Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            <div class="validate"></div>
+                        </div>
+                        <div id="StatMsg"></div>
+                        <div class="text-center">
+                            <button type="submit" id="confirmedit">Edit Account</button>
+                        </div>
+                    </form>
+                }
+
+            </div>
+        </section>
+
+        <!-- ======= End Customer Profile Management Section ======= -->
+
+    </main>
+</body>
+</html>
+
+<script>
+    window.onload = function () {
+        var getStatus = '@ViewData["uCustProf"]';
+        if (getStatus == null || getStatus == "") {
+
+        }
+        else if (getStatus == "Updated") {
+            document.getElementById("StatMsg").innerHTML = "Successfully Updated!";
+            document.getElementById("StatMsg").style.color = "#4BB543";
+        }
+        else if (getStatus == "Deleted") {
+            document.getElementById("StatMsg").innerHTML = "Successfully Deleted!";
+            document.getElementById("StatMsg").style.color = "#4BB543";
+        }
+        else if (getStatus == "NotUpdated") {
+            document.getElementById("StatMsg").innerHTML = "User does not exist please check your spelling."
+            document.getElementById("StatMsg").style.color = "#ff0033";
+        }
+        else if (getStatus == "NotDeleted") {
+            document.getElementById("StatMsg").innerHTML = "User does not exist please check your spelling."
+            document.getElementById("StatMsg").style.color = "#ff0033";
+        }
+        else if (getStatus == "NotSearched") {
+            document.getElementById("StatMsg").innerHTML = "User does not exist please check your spelling."
+            document.getElementById("StatMsg").style.color = "#ff0033";
+        }
+    };
+
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+</script>
+

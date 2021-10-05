@@ -1,0 +1,212 @@
+﻿@model SurveyQuestionViewModel
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Restaurantly Bootstrap Template - Index</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <!-- Favicons -->
+    <link href="~/Content/img/favicon.png" rel="icon">
+    <link href="~/Content/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Content/vendor/animate.css/animate.min.css" rel="stylesheet" />
+    <link href="~/Content/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Content/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Content/css/style.css" rel="stylesheet">
+</head>
+
+<html>
+<body>
+    <main id="main">
+
+        <!-- ======= Top Bar Section ======= -->
+
+        <section class="breadcrumbs">
+            <div class="container">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Survey</h2>
+                    <ol>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======= End Top Bar Section ======= -->
+
+        <!-- ======= Survey Questions Section ======= -->
+        <section id="why-us" class="why-us custom-scrollbar-css" style="height:650px">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Close support tickets once solved</h2>
+                    <p>Click on a box to change the status of a ticket</p>
+                </div>
+
+                <div class="row">
+
+                    @{ int i = 0; }
+                    @if (ViewData["sQuestions"] != null)
+                    {
+                        @foreach (var question in (List<SurveyQuestionViewModel>)ViewData["sQuestions"])
+                        {
+                            <form method="post" action="DeleteSurveyAdmin" role="form" id="form+@i">
+                                <div class="col-lg-4" style="margin-bottom:5px">
+                                    <div class="boxstyler" id="box'@i'" onClick="populate(@i)">
+                                        <span>
+                                            ID: @Html.DisplayFor(x => question.Id)
+                                            <i style="color:#ff0033;font-size:12px;cursor:pointer;" onClick="document.getElementById('form+'+@i).submit()">
+                                                <u>(Delete)</u>
+                                            </i>
+                                        </span>
+                                        <h4>Question: </h4>
+                                        <i style="color:#CAE4F1;font-size:12px">
+                                            @Html.DisplayFor(x => question.Question)
+                                        </i>
+                                        <h4>Answers: </h4>
+                                        <p>
+                                            <i style="color:#CAE4F1;font-size:12px">
+                                                Answer 1: @Html.DisplayFor(x => question.Answer1)
+                                            </i>
+                                        </p>
+                                        <p>
+                                            <i style="color:#CAE4F1;font-size:12px">
+                                                Answer 2: @Html.DisplayFor(x => question.Answer2)
+                                            </i>
+                                        </p>
+                                        <p>
+                                            <i style="color:#CAE4F1;font-size:12px">
+                                                Answer 3: @Html.DisplayFor(x => question.Answer3)
+                                            </i>
+                                        </p>
+                                        <p>
+                                            <i style="color:#CAE4F1;font-size:12px">
+                                                Answer 4: @Html.DisplayFor(x => question.Answer4)
+                                            </i>
+                                        </p>
+                                        <input type="hidden" name="Id" id="sId'@i'" value="@Html.DisplayFor(x => question.Id)" />
+                                        <input type="hidden" id="sQues'@i'" value="@Html.DisplayFor(x => question.Question)" />
+                                        <input type="hidden" id="sAnsOne'@i'" value="@Html.DisplayFor(x => question.Answer1)" />
+                                        <input type="hidden" id="sAnsTwo'@i'" value="@Html.DisplayFor(x => question.Answer2)" />
+                                        <input type="hidden" id="sAnsThree'@i'" value="@Html.DisplayFor(x => question.Answer3)" />
+                                        <input type="hidden" id="sAnsFour'@i'" value="@Html.DisplayFor(x => question.Answer4)" />
+                                    </div>
+                                </div>
+                                @{i++;}
+                            </form>
+                        }
+                    }
+                    else if (ViewData["Tickets"] == null)
+                    {
+                        <p>No Survey Questions please add at least 10 to the database.</p>
+                    }
+
+                </div>
+
+            </div>
+        </section><!-- End Survey Questions Section -->
+        <!-- Add Questions Seciton -->
+        <section id="book-a-table" class="book-a-table">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Add a new Item!</h2>
+                </div>
+                <form method="post" role="form" action="SurveyAdmin" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input asp-for="Id" class="form-control" id="qId" value="0" readonly>
+                        <i style="color:#CAE4F1;font-size:12px">
+                            *<u style="color:#0645AD;cursor:pointer;" onclick="document.getElementById('qId').value= 0">(Clear)</u> or leave at 0 if adding a new question
+                            / populate the field with an existing id by clicking on the above existing questions to edit existing questions*
+                        </i>
+                        <span asp-validation-for="Answer1" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group">
+                        <textarea asp-for="Question" class="form-control" rows="4" id="qQues" placeholder="Question" maxlength="500" required></textarea>
+                        <span asp-validation-for="Question" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input asp-for="Answer1" class="form-control" id="qA1" placeholder="First Answer" maxlength="100" required>
+                        <span asp-validation-for="Answer1" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input asp-for="Answer2" class="form-control" id="qA2" placeholder="Second Answer" maxlength="100" required>
+                        <span asp-validation-for="Answer2" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input asp-for="Answer3" class="form-control" id="qA3" placeholder="Third Answer" maxlength="100" required>
+                        <span asp-validation-for="Answer3" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input asp-for="Answer4" class="form-control" id="qA4" placeholder="Fourth Answer" maxlength="100" required>
+                        <span asp-validation-for="Answer4" class="text-danger"></span>
+                    </div>
+                    <div id="StatMsg"></div>
+                    <div class="text-center"><button type="submit">Commit</button></div>
+                </form>
+            </div>
+        </section>
+        <!-- End Add Questions Seciton -->
+
+    </main>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+</body>
+</html>
+
+<script>
+    window.onload = function () {
+        var getStatus = '@ViewData["sAdmin"]';
+        if (getStatus == null || getStatus == "") {
+
+        }
+        else if (getStatus == "Added") {
+            document.getElementById("StatMsg").innerHTML = "Successfully Added!";
+            document.getElementById("StatMsg").style.color = "#4BB543";
+        }
+        else if (getStatus == "Edited") {
+            document.getElementById("StatMsg").innerHTML = "Successfully Edited!";
+            document.getElementById("StatMsg").style.color = "#4BB543";
+        } 
+        else if (getStatus == "Deleted") {
+            document.getElementById("StatMsg").innerHTML = "Successfully Deleted!";
+            document.getElementById("StatMsg").style.color = "#4BB543";
+        } 
+        else if (getStatus == "NotAdded") {
+            document.getElementById("StatMsg").innerHTML = "Unexpected Error occured please try again."
+            document.getElementById("StatMsg").style.color = "#ff0033";
+        }
+        else if (getStatus == "NotEdited") {
+            document.getElementById("StatMsg").innerHTML = "Unexpected Error occured please try again."
+            document.getElementById("StatMsg").style.color = "#ff0033";
+        }
+        else if (getStatus == "NotDeleted") {
+            document.getElementById("StatMsg").innerHTML = "Unexpected Error occured please try again."
+            document.getElementById("StatMsg").style.color = "#ff0033";
+        }
+    };
+
+    function populate(i) {
+        document.getElementById("qId").value = document.getElementById("sId'" + i + "'").value;
+        document.getElementById("qQues").value = document.getElementById("sQues'" + i + "'").value;
+        document.getElementById("qA1").value = document.getElementById("sAnsOne'" + i + "'").value;
+        document.getElementById("qA2").value = document.getElementById("sAnsTwo'" + i + "'").value;
+        document.getElementById("qA3").value = document.getElementById("sAnsThree'" + i + "'").value;
+        document.getElementById("qA4").value = document.getElementById("sAnsFour'" + i + "'").value;
+    }
+
+
+</script>

@@ -1,0 +1,227 @@
+﻿@model SurveyAnswersViewModel
+
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Restaurantly Bootstrap Template - Index</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <!-- Favicons -->
+    <link href="~/Content/img/favicon.png" rel="icon">
+    <link href="~/Content/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Content/vendor/animate.css/animate.min.css" rel="stylesheet" />
+    <link href="~/Content/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Content/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Content/css/style.css" rel="stylesheet">
+</head>
+
+<html>
+<body>
+    <main id="main">
+
+        <!-- ======= Top Bar Section ======= -->
+
+        <section class="breadcrumbs">
+            <div class="container">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Survey</h2>
+                    <ol>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======= End Top Bar Section ======= -->
+
+        <!-- ======= Survey Section ======= -->
+        <section id="events" class="events">
+            <form method="post" role="form" action="Survey" data-aos="fade-up" data-aos-delay="100" id="surveyform">
+                <div class="container" data-aos="fade-up">
+
+                    <div class="section-title">
+                        <h2>A score will be given to you compared to the average score of other participants.</h2>
+                        <p>Please Answer with Honesty.</p>
+                    </div>
+
+                    <div class="events-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
+                        <div class="swiper-wrapper">
+                            @{ int i = 1; }
+                            @if (ViewData["sQuestions"] != null)
+                            {
+                                @foreach (var question in (List<SurveyQuestionViewModel>)ViewData["sQuestions"])
+                                {
+                                    <div class="swiper-slide" data-swiper-autoplay="9000000000000">
+                                        <div class="row event-item">
+                                            <div class="col-lg-6 pt-4 pt-lg-0 content">
+                                                <h3>Question @i</h3>
+                                                <div class="price">
+                                                    <p><span style="font-size:20px">@Html.DisplayFor(x => question.Question)</span></p>
+                                                </div>
+                                                <ul>
+                                                    <li>
+                                                        <input type="radio" id="ans1of@(i)" name="Answer@(i)" value="4" required /><i class="bi bi-check-circled"></i>
+                                                        @Html.DisplayFor(x => question.Answer1)
+                                                    </li>
+                                                    <li>
+                                                        <input type="radio" id="ans2of@(i)" name="Answer@(i)" value="3" required /><i class="bi bi-check-circled"></i>
+                                                        @Html.DisplayFor(x => question.Answer2)
+                                                    </li>
+                                                    <li>
+                                                        <input type="radio" id="ans3of@(i)" name="Answer@(i)" value="2" required /><i class="bi bi-check-circled"></i>
+                                                        @Html.DisplayFor(x => question.Answer3)
+                                                    </li>
+                                                    <li>
+                                                        <input type="radio" id="ans4of@(i)" name="Answer@(i)" value="1" required /><i class="bi bi-check-circled"></i>
+                                                        @Html.DisplayFor(x => question.Answer4)
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    i++;
+                                }
+
+                                <div class="swiper-slide" data-swiper-autoplay="9000000000000">
+                                    <div class="row event-item">
+
+                                        <div class="col-lg-6 pt-4 pt-lg-0 content">
+                                            <h3>End of Questions</h3>
+                                            <div class="price">
+                                                <p><span>This is the end of the survey.</span></p>
+                                            </div>
+                                            <p class="fst-italic">
+                                                You may go back and recheck your answers or alternatively submit and get your evaluation.
+                                            </p>
+                                            <ul>
+                                            </ul>
+                                            <p>
+
+                                                <input type="button" onclick="validator()" class="btnstyler1" value="Submit" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="swiper-slide" data-swiper-autoplay="9000000000000">
+                                    <div class="row event-item">
+
+                                        <div class="col-lg-6 pt-4 pt-lg-0 content">
+                                            <h3>Error</h3>
+                                            <div class="price">
+                                                <p><span>Error</span></p>
+                                            </div>
+                                            <p class="fst-italic">
+                                                An unexpected error has occured.
+                                            </p>
+                                            <ul>
+                                                <li><i class="bi bi-check-circled"></i> Error</li>
+                                                <li><i class="bi bi-check-circled"></i> Error</li>
+                                                <li><i class="bi bi-check-circled"></i> Error</li>
+                                            </ul>
+                                            <p>
+                                                Error
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div><!-- End testimonial item -->
+                            }
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div id="errMsg" style="color:#ff0033"></div>
+                    </div>
+                </div>
+            </form>
+        </section><!-- End Survey Section -->
+
+
+
+    </main>
+
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <!-- Vendor JS Files -->
+    <script src="~/Content/vendor/aos/aos.js"></script>
+    <script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/Content/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/Content/vendor/php-email-form/validate.js"></script>
+    <script src="~/Content/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/Content/js/main.js"></script>
+    <script src="~/js/Test.js"></script>
+
+    <script>
+        function validate() {
+            var valid = true;
+
+            for (var i = 1; i <= 10; i++) {
+                if (document.getElementById("ans1of" + i).checked) {
+
+                } else if (document.getElementById("ans2of" + i).checked) {
+
+                } else if (document.getElementById("ans3of" + i).checked) {
+
+                } else if (document.getElementById("ans4of" + i).checked) {
+
+                } else {
+                    document.getElementById("errMsg").innerHTML = "There are questions unanswered please go back and recheck your questions.";
+                    valid = false;
+                }
+            }
+
+            if (valid == true) {
+                document.getElementById("surveyform").submit();
+            }
+            valid = true;
+        }
+
+
+        function validator() {
+            var valid = true;
+            for (var i = 1; i <= 10; i++) {
+                /*var validity = document.querySelector('input[name="Answer"]:checked');*/
+                var validity = document.querySelector('input[name=Answer' + i + ']:checked');
+                if (validity == null) {
+                    document.getElementById("errMsg").innerHTML = "There are questions unanswered please go back and recheck your questions.";
+                    valid = false;
+                }
+            }
+            if (valid == true) {
+                document.getElementById("surveyform").submit();
+            } else {
+                valid = true;
+            }
+        }
+
+        window.onload = function () {
+            var getstatus = '@ViewData["sQuestionsErr"]';
+            if (getStatus == "error") {
+                document.getElementById("StatMsg").innerHTML = "Unexpected Error occured please try again."
+                document.getElementById("StatMsg").style.color = "#ff0033";
+            }
+        }
+    </script>
+
+</body>
+</html>
+
+

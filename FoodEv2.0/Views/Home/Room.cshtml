@@ -1,0 +1,169 @@
+﻿@model RoomItemViewModel
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Restaurantly Bootstrap Template - Index</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicons -->
+    <link href="~/Content/img/favicon.png" rel="icon">
+    <link href="~/Content/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Content/vendor/animate.css/animate.min.css" rel="stylesheet" />
+    <link href="~/Content/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Content/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Content/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <main id="main">
+
+        <!-- ======= Top Bar Section ======= -->
+
+        <section class="breadcrumbs">
+            <div class="container">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>@HttpContextAccessor.HttpContext.Session.GetString("rName")</h2>
+                    <ol>
+                        <li><a asp-area="" asp-controller="Home" asp-action="RoomLobby">Back</a></li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======= End Top Bar Section ======= -->
+
+        <!-- ======= Items Section ======= -->
+        <section id="menu" class="menu section-bg">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>@HttpContextAccessor.HttpContext.Session.GetString("rCode")</h2>
+                    <p>Items</p>
+                </div>
+
+                <div class="row" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-12 d-flex justify-content-center">
+                        <ul id="menu-flters">
+                            <li data-filter="*" class="filter-active">All</li>
+                            <li data-filter=".filter-Meat">Meats</li>
+                            <li data-filter=".filter-Vegetable">Vegetables</li>
+                            <li data-filter=".filter-Seafood">Seafood</li>
+                            <li data-filter=".filter-Fungi">Fungi</li>
+                            <li data-filter=".filter-Bread">Bread</li>
+                            <li data-filter=".filter-Sauce">Sauce</li>
+                            <li data-filter=".filter-Powder">Powder</li>
+                            <li data-filter=".filter-Herb">Herb</li>
+                            <li data-filter=".filter-Spice">Spice</li>
+                            <li data-filter=".filter-Other">Other</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="gcse-search"></div>
+                <p>*Search for recipes of your ingredients here*</p>
+
+                <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+                    @{ int i = 0; }
+                    @if (ViewData["rItems"] != null)
+                    {
+                        @foreach (var items in (List<RoomItemViewModel>)ViewData["rItems"])
+                        {
+                            <form method="post" action="RemoveItem" role="form" id="form+@i">
+                                <div class="col-lg-6 menu-item filter-@Html.DisplayFor(x => items.ItemType)">
+                                    <img src="~/img/ItemType(@Html.DisplayFor(x => items.ItemType)).jpg" class="menu-img" alt="" />
+                                    <div class="menu-content">
+                                        <a href="#">
+                                            @Html.DisplayFor(x => items.ItemName)
+                                            <i style="color:#ff0033;font-size:12px;cursor:pointer;" onclick="document.getElementById('form+'+@i).submit()">(Remove)</i>
+                                        </a><span>@Html.DisplayFor(x => items.ItemQuantity) KG</span>
+                                    </div>
+                                    <div class="menu-ingredients">
+                                        Expiry Date: @Html.DisplayFor(x => items.ItemExpiry)
+                                    </div>
+                                </div>
+                                <input type="hidden" name="Id" value="@Html.DisplayFor(x => items.Id)" />
+                                @{i++;}
+                            </form>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-lg-6 menu-item filter-specialty">
+                            <img src="~/Content/img/menu/plus-sign.png" class="menu-img" alt="" />
+                            <div class="menu-content">
+                                <a href="#">No Items</a>
+                            </div>
+                            <div class="menu-ingredients">
+                                Please add items in the add items section down below.
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section><!-- End Items Section -->
+        <!-- Add Items Seciton -->
+        <section id="book-a-table" class="book-a-table">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Add a new Item!</h2>
+                </div>
+                <form method="post" role="form" action="AddItem" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-4 col-md-6 form-group">
+                        <select asp-for="ItemType" asp-items="Model.ItemTypeList" class="form-control" id="ItemType"
+                                style="background-color: #0c0b09;border-color:#625b4b;color:white"></select>
+                        <span asp-validation-for="ItemType" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input asp-for="ItemName" class="form-control" id="Iname" placeholder="Item Name">
+                        <span asp-validation-for="ItemName" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input type="number" name="ItemQuantity" class="form-control" step="0.01" id="Iquan" placeholder="Weight in KG">
+                        <span asp-validation-for="ItemQuantity" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input type="text" class="form-control" name="ItemExpiry" id="Iexp" placeholder="Item Expiry Date" onfocus="(this.type='date')">
+                        <span asp-validation-for="ItemExpiry" class="text-danger"></span>
+                    </div>
+                    <div id="StatMsg"></div>
+                    <input type="hidden" asp-for="RoomCode" value="@HttpContextAccessor.HttpContext.Session.GetString("rCode")" />
+                    <div class="text-center"><button type="submit">Add Item</button></div>
+                </form>
+            </div>
+        </section>
+        <!-- End Add Items Seciton -->
+
+    </main>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <script async src="https://cse.google.com/cse.js?cx=3ab81e576c9f9fced"></script>
+
+    
+</body>
+</html>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+</script>

@@ -1,0 +1,174 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@model RegisterViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Restaurantly Bootstrap Template - Index</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <!-- Favicons -->
+    <link href="~/Content/img/favicon.png" rel="icon">
+    <link href="~/Content/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Content/vendor/animate.css/animate.min.css" rel="stylesheet" />
+    <link href="~/Content/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Content/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Content/css/style.css" rel="stylesheet">
+
+    
+</head>
+
+<body>
+    <main id="main">
+
+        <!-- ======= Top Bar Section ======= -->
+
+        <section class="breadcrumbs">
+            <div class="container">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Profile Management</h2>
+                    <ol>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======= End Top Bar Section ======= -->
+        <!-- ======= Profile Management Section ======= -->
+
+        <section id="book-a-table" class="book-a-table">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Update Account Information</h2>
+                </div>
+                <form method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-4 col-md-6 form-group">
+                        <input asp-for="Username" class="form-control" id="name" placeholder="Username" data-rule="minlen:4" data-msg="Please enter at least 4 chars" readonly="readonly" value="@HttpContextAccessor.HttpContext.Session.GetString("uName")">
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                        <div class="validate"></div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input type="text" class="form-control" name="FirstName" id="firstname" placeholder="First Name" data-rule="minlen:2" data-msg="Please enter at least 2 chars" readonly="readonly" value="@HttpContextAccessor.HttpContext.Session.GetString("uFame")">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                        <div class="validate"></div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input type="text" class="form-control" name="LastName" id="lastname" placeholder="Last Name" data-rule="minlen:2" data-msg="Please enter at least 2 chars" readonly="readonly" value="@HttpContextAccessor.HttpContext.Session.GetString("uLame")">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                        <div class="validate"></div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input type="text" class="form-control" name="ContactNo" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars" readonly="readonly" value="@HttpContextAccessor.HttpContext.Session.GetString("uCont")">
+                        <span asp-validation-for="ContactNo" class="text-danger"></span>
+                        <div class="validate"></div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input type="email" class="form-control" name="EmailAddress" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" readonly="readonly" value="@HttpContextAccessor.HttpContext.Session.GetString("uMail")">
+                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                        <div class="validate"></div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input type="password" name="Password" class="form-control" id="password" placeholder="Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars" readonly="readonly" value="@HttpContextAccessor.HttpContext.Session.GetString("uPass")">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="validate"></div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group mt-3">
+                        <input type="password" name="ConfirmPassword" class="form-control" id="conpassword" placeholder="Confirm Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars" style="display:none">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        <div class="validate"></div>
+                    </div>
+                    <div id="StatMsg"></div>
+                    <div class="text-center">
+                        <button type="button" id="edit" class="btnstyler1">Edit</button>
+                        <button type="button" id="canceledit" style="display:none" class="btnstyler2">Cancel Edit</button>
+                        <button type="submit" id="confirmedit" style="display:none">Confirm Changes</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ======= End Profile Management Section ======= -->
+
+    </main><!-- End #main -->
+    <!-- ======= Footer ======= -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+</body>
+</html>
+
+<script>
+    window.onload = function () {
+        var getStatus = '@ViewData["UpdateProf"]';
+        if (getStatus == null || getStatus == "") {
+
+        } else if (getStatus == "true") {
+            document.getElementById("StatMsg").innerHTML = "Successfully Updated!";
+            document.getElementById("StatMsg").style.color = "#4BB543";
+        }
+        else if (getStatus == "false") {
+            document.getElementById("StatMsg").innerHTML = "There was an unexpected error when updating your profile, Please try again."
+            document.getElementById("StatMsg").style.color = "#ff0033";
+        }
+    };
+
+    document.getElementById('edit').onclick = function () {
+        document.getElementById('password').readOnly = false;
+        document.getElementById('email').readOnly = false;
+        document.getElementById('phone').readOnly = false;
+
+        document.getElementById('conpassword').style.display = 'inline';
+        document.getElementById('canceledit').style.display = 'inline';
+        document.getElementById('confirmedit').style.display = 'inline';
+
+        document.getElementById('name').style.display = 'none';
+        document.getElementById('firstname').style.display = 'none';
+        document.getElementById('lastname').style.display = 'none';
+        document.getElementById('edit').style.display = 'none';
+
+        $('#password').val('');
+        $('#email').val('');
+        $('#phone').val('');
+        $('#conpassword').val('');
+    }
+
+    document.getElementById('canceledit').onclick = function () {
+        editmode = false;
+        document.getElementById('password').readOnly = true;
+        document.getElementById('email').readOnly = true;
+        document.getElementById('phone').readOnly = true;
+
+        document.getElementById('conpassword').style.display = 'none';
+        document.getElementById('canceledit').style.display = 'none';
+        document.getElementById('confirmedit').style.display = 'none';
+
+        document.getElementById('name').style.display = 'inline';
+        document.getElementById('firstname').style.display = 'inline';
+        document.getElementById('lastname').style.display = 'inline';
+        document.getElementById('edit').style.display = 'inline';
+
+        $('#password').val('@HttpContextAccessor.HttpContext.Session.GetString("uPass")');
+        $('#email').val('@HttpContextAccessor.HttpContext.Session.GetString("uMail")');
+        $('#phone').val('@HttpContextAccessor.HttpContext.Session.GetString("uCont")');
+    }
+</script>

@@ -1,0 +1,233 @@
+﻿@model RoomViewModel
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Restaurantly Bootstrap Template - Index</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <!-- Favicons -->
+    <link href="~/Content/img/favicon.png" rel="icon">
+    <link href="~/Content/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Content/vendor/animate.css/animate.min.css" rel="stylesheet" />
+    <link href="~/Content/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Content/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/Content/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Content/css/style.css" rel="stylesheet">
+
+    
+</head>
+
+<body>
+    <main id="main">
+
+        <!-- ======= Top Bar Section ======= -->
+
+        <section class="breadcrumbs">
+            <div class="container">
+                <ol>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ======= End Top Bar Section ======= -->
+
+        <!-- ======= Rooms Section ======= -->
+        <section id="specials" class="specials">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title">
+                    <h2>Rooms</h2>
+                    <p>Create, Search, or Join a Room</p>
+                </div>
+
+                <div class="row" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-3">
+                        <ul class="nav nav-tabs flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">Your Rooms</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tab-2">Create a Room</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tab-3">Join Room</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tab-4">Information</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#tab-5">Help</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-9 mt-4 mt-lg-0">
+                        <div class="tab-content">
+                            <div class="tab-pane active show" id="tab-1">
+                                <div class="row">
+                                    <div class="col-lg-8 details order-2 order-lg-1" style="overflow-y:auto; height:235px">
+                                        <h3>Your Rooms</h3>
+
+                                        <p>Click on a room to View the room.</p>
+                                        @{ int i = 0; }
+                                        @if (HttpContextAccessor.HttpContext.Session.GetInt32("uAuth") == null ||
+                              HttpContextAccessor.HttpContext.Session.GetInt32("uAuth") == 3)
+                                        {
+                                            <p>Please Login to use this feature.</p>
+                                        }
+                                        else
+                                        {
+                                            @if (ViewData["MyRooms"] != null)
+                                            {
+                                                @foreach (var myroom in (List<RoomViewModel>)ViewData["MyRooms"])
+                                                {
+                                                    <form method="post" action="Room" role="form" id="form+@i">
+                                                        <div class="col-lg-4" style="margin-bottom:5px">
+                                                            <div class="boxstyler" id="box'@i'" onClick="document.getElementById('form+'+@i).submit()">
+                                                                <span>Room Name: @Html.DisplayFor(x => myroom.RoomName)</span>
+                                                                <h4>Room Code: @Html.DisplayFor(x => myroom.RoomCode)</h4>
+                                                                <p>Room Creator: @Html.DisplayFor(x => myroom.RoomLeader)</p>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="RoomCode" value="@myroom.RoomCode" readonly />
+                                                        <input type="hidden" name="RoomName" value="@myroom.RoomName" readonly />
+                                                        <input type="hidden" name="RoomLeader" value="@myroom.RoomLeader" readonly />
+                                                        @{i++;}
+                                                    </form>
+                                                }
+                                            }
+                                            else if (ViewData["MyRooms"] == null)
+                                            {
+                                                <p>You have not created or joined a room yet.</p>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-2">
+                                <div class="row">
+                                    <div class="col-lg-8 details order-2 order-lg-1">
+                                        <h3>Create a new Room</h3>
+                                        <p>To Create a room please enter the room name and the Room Id will be auto generated.</p>
+                                        <p class="fst-italic">Other people can join the room using the Room Id.</p>
+                                        <form method="post" action="RoomLobby" role="form" class="formstyle" data-aos="fade-up" data-aos-delay="100">
+                                            <div class="col-lg-4 col-md-6 form-group input-group">
+                                                <input asp-for="RoomName" id="name" class="form-control textstyler" placeholder="Room Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btnstyler">Create Room</button>
+                                                </div>
+                                                <input type="hidden" asp-for="RoomCode" value="123456" />
+                                            </div>
+                                        </form>
+                                        <span asp-validation-for="RoomName" class="text-danger"></span>
+                                        <div id="StatMsg"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-3">
+                                <div class="row">
+                                    <div class="col-lg-8 details order-2 order-lg-1">
+                                        <h3>Join Room</h3>
+                                        <p class="fst-italic">Please enter a rooom code to join a room.</p>
+                                        <form method="post" action="RoomJoin" class="formstyle" role="form" data-aos="fade-up" data-aos-delay="100">
+                                            <div class="col-lg-4 col-md-6 form-group input-group">
+                                                <input asp-for="RoomCode" id="name" class="form-control textstyler" placeholder="Room Code" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btnstyler">Join Room</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <span asp-validation-for="RoomCode" class="text-danger"></span>
+                                        <div id="JStatMsg"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-4">
+                                <div class="row">
+                                    <div class="col-lg-8 details order-2 order-lg-1">
+                                        <h3>Important Information</h3>
+                                        <p>Guests/Unregistered users have limited access to features such as creating rooms and adding items into a room's database.</p>
+                                        <p>Registered users can find all previously joined rooms on the My Rooms section and can remove any at anypoint in time.</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-5">
+                                <div class="row">
+                                    <div class="col-lg-8 details order-2 order-lg-1">
+                                        <h3>Have a Question or need Help?</h3>
+                                        <p>Please refer to the Contact Us page of the website.</p>
+                                        <p>The contact us page can be reached by clicking on the Contact Us button on the navigation tab.</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End Specials Section -->
+    </main>
+
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <!-- Vendor JS Files -->
+    <script src="~/Content/vendor/aos/aos.js"></script>
+    <script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/Content/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/Content/vendor/php-email-form/validate.js"></script>
+    <script src="~/Content/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/Content/js/main.js"></script>
+
+</body>
+
+</html>
+
+<script>
+    window.onload = function () {
+        var getStatus = '@ViewData["AddRoom"]';
+        var jGetStatus = '@ViewData["JoinStat"]'
+        /*Create Room*/
+        if (getStatus == null || getStatus == "") {
+
+        } else if (getStatus == "noLogin") {
+            document.getElementById("StatMsg").innerHTML = "Please Login or Register an account to create a room.";
+            document.getElementById("StatMsg").style.color = "#ff0033";
+        }
+        else if (getStatus == "false") {
+            document.getElementById("StatMsg").innerHTML = "There was an unexpected error when creating your room, please try again."
+            document.getElementById("StatMsg").style.color = "#ff0033";
+        } else if (getStatus == "true") {
+            document.getElementById("StatMsg").innerHTML = "Room Created. View room via the My Rooms tab."
+            document.getElementById("StatMsg").style.color = "#4BB543";
+        }
+        /*Join Room*/
+        if (jGetStatus == null || jGetStatus == "") {
+
+        } else if (jGetStatus == "false") {
+            document.getElementById("JStatMsg").innerHTML = "Room does not exist please double check the room code.";
+            document.getElementById("JStatMsg").style.color = "#ff0033";
+        }
+    };
+
+</script>
